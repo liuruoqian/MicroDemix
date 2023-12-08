@@ -25,8 +25,8 @@ We can access this dataset by running the following:
 data(yig)
 # show the column (taxa) names 
 colnames(yig)
-[1] "Actinobacteria"  "Bacteroidetes"   "Cyanobacteria"   "Firmicutes"      "Fusobacteria"   
-[6] "Lentisphaerae"   "Proteobacteria"  "Verrucomicrobia"
+[1] "Clostridiaceae"      "Enterococcaceae"     "Erysipelotrichaceae" "Lachnospiraceae"     "Peptococcaceae"     
+[6] "Planococcaceae"      "Ruminococcaceae"     "Turicibacteraceae"   "Veillonellaceae"   
 ```
 ### 'yig.n': A sample rectum (reference) microbiome data
 'yig.n' is an example dataset for rectum (reference) microbiome data with 30 samples in rows and 9 taxa (families) in columns. 
@@ -35,8 +35,8 @@ We can access this dataset by running the following:
 data(yig.n)
 # show the column (taxa) names 
 colnames(yig.n)
-[1] "Actinobacteria"  "Bacteroidetes"   "Cyanobacteria"   "Firmicutes"      "Fusobacteria"   
-[6] "Lentisphaerae"   "Proteobacteria"  "Verrucomicrobia"
+[1] "Clostridiaceae"      "Enterococcaceae"     "Erysipelotrichaceae" "Lachnospiraceae"     "Peptococcaceae"     
+[6] "Planococcaceae"      "Ruminococcaceae"     "Turicibacteraceae"   "Veillonellaceae"   
 ```
 ### 'x': A covariates data related to samples in data 'yig' 
 'x' is a dataset contains information on consent_age and gender corresponding to samples in data 'yig'.
