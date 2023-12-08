@@ -2,7 +2,13 @@
 R package for Micro-Demix, a method that decomposes the stool microbiome at compositional level to understand the
 heterogeneity of the gut microbiome across various GI locations. In this section, we introduce the installation process of 'MicroDemix' and demonstrate the features of this R package using example datasets. 
 ## Installation
-### Install and load the following R packages
+### Install package "MicroDemix"
+```
+library(devtools)
+install_github("liuruoqian/MicroDemix")
+library(MicroDemix)
+```
+### Load the following R packages
 ```
 library(optimx)
 library(cubature)
@@ -10,12 +16,7 @@ library(rootSolve)
 library(MASS)
 library(ggplot2)
 ```
-### Install package "MicroDemix"
-```
-library(devtools)
-install_github("liuruoqian/MicroDemix")
-library(MicroDemix)
-```
+
 ## Example datasets in "MicroDemix"
 
 ### 'yig': A stool (mixture) microbiome dataset
