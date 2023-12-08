@@ -10,4 +10,9 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
-Imports: rootSolve;optimx;cubature;MASS;ggplot2
+Imports: 
+ rootSolve,
+ optimx,
+ cubature,
+ MASS,
+ ggplot2
