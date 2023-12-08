@@ -18,7 +18,7 @@ library(MicroDemix)
 ```
 ## Example datasets in "MicroDemix"
 
-### 'yig': A sample stool (mixture) microbiome data
+### 'yig': A stool (mixture) microbiome dataset
 'yig' is an example dataset for stool (mixture) microbiome data with 12 samples in rows and 9 taxa (families) in columns. 
 We can access this dataset by running the following:
 ```
@@ -28,7 +28,7 @@ colnames(yig)
 [1] "Clostridiaceae"      "Enterococcaceae"     "Erysipelotrichaceae" "Lachnospiraceae"     "Peptococcaceae"     
 [6] "Planococcaceae"      "Ruminococcaceae"     "Turicibacteraceae"   "Veillonellaceae"   
 ```
-### 'yig.n': A sample rectum (reference) microbiome data
+### 'yig.n': A rectum (reference) microbiome dataset
 'yig.n' is an example dataset for rectum (reference) microbiome data with 30 samples in rows and 9 taxa (families) in columns. 
 We can access this dataset by running the following:
 ```
@@ -38,7 +38,7 @@ colnames(yig.n)
 [1] "Clostridiaceae"      "Enterococcaceae"     "Erysipelotrichaceae" "Lachnospiraceae"     "Peptococcaceae"     
 [6] "Planococcaceae"      "Ruminococcaceae"     "Turicibacteraceae"   "Veillonellaceae"   
 ```
-### 'x': A covariates data related to samples in data 'yig' 
+### 'x': A covariates dataset related to samples in data 'yig' 
 'x' is a dataset contains information on consent_age and gender corresponding to samples in data 'yig'.
 We can access this dataset by running the following:
 ```
@@ -47,7 +47,6 @@ colnames(x)
 [1] "consent_age" "gender" 
 ```
 ## Functions and data analysis with "MicroDemix"
-
 ### Function 1: MD_estimate(data1, data2, cova)
 This function estimates the microbial relative abundance in stool (mixture), rectum (reference) and other GI locations. For example: 
 ```
