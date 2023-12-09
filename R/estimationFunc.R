@@ -4,12 +4,13 @@
 #' This function estimate the microbial relative abundance in stool (mixture),
 #' rectum (reference) and other GI locations.
 #' @param data1 stool (mixture) microbiome data set with taxa in
-#'            column and samples in row.
+#'            columns and samples in rows.
 #' @param data2 rectum (reference) microbiome data set with taxa in
-#'            column and samples in row. The taxa in data1 and data2 should
+#'            columns and samples in rows. The taxa in data1 and data2 should
 #'            be matching.
 #' @param cova covariates related to samples in data1 that have a matching order
-#' with data1.
+#' with data1. 'cova' must be a matrix with covariates in columns and observations
+#' in rows.
 #' @return A list containing the following components:
 #' \item{pr.est}{the estimated relative abundance for the rectum (reference) microbiome}
 #' \item{ps.est}{the estimated relative abundance for the stool (mixture) microbiome}
@@ -128,48 +129,46 @@ MD_estimate <- function(data1, data2, cova){
 
   d <- dim(x)[2]
 
-  u_para <- u.hat
+  # u_para <- u.hat
+  #
+  # mu_v <- apply(x,1,func_mu, b0_mu=0, b_mu=c(0,0))
+  #
+  # phi_v <- apply(x,1,func_phi, b0_phi=0, b_phi=c(0,0))
+  #
+  # a1_v <- mu_v*phi_v
+  # a2_v <- (1-mu_v)*phi_v
+  #
+  # u_mtx <- matrix(rep(u_para,s.c),G,s.c)
+  # p1_mtx <- matrix(rep(p1.hat,s.c),G,s.c)
+  #
+  #
+  # which(log(mapply(func_inte, as.list(data.frame(u_mtx)),
+  #                  as.list(data.frame(t(yig))), as.list(a1_v),as.list(a2_v))) == -Inf)
 
-  mu_v <- apply(x,1,func_mu, b0_mu=0, b_mu=c(0,0))
-
-  phi_v <- apply(x,1,func_phi, b0_phi=0, b_phi=c(0,0))
-
-  a1_v <- mu_v*phi_v
-  a2_v <- (1-mu_v)*phi_v
-
-  u_mtx <- matrix(rep(u_para,s.c),G,s.c)
-  p1_mtx <- matrix(rep(p1.hat,s.c),G,s.c)
-
-
-  which(log(mapply(func_inte, as.list(data.frame(u_mtx)),
-                   as.list(data.frame(t(yig))), as.list(a1_v),as.list(a2_v))) == -Inf)
-
-  b <- optimx(par= u.hat,fn=optFunc_pc, theta = rep(0,6), yig=yig, x1=x,
+  b <- suppressWarnings(optimx(par= u.hat,fn=optFunc_pc, theta = rep(0, (2+2*d)), yig=yig, x1=x,
                method = "Nelder-Mead",
-              control = list(maxit=100))
+              control = list(maxit=100)))
 
-  b
   b1 <- b
   LL1 <- b1$value
   LL_v <- rep(NA,31)
   LL_v[1] <- LL1
 
-  b_init <- c(0,0,0,0,0,0)
+  b_init <- rep(0, (2+2*d))
   u_init <- u.hat
   for (iter in 1:30){
 
 
-    b2 <- optimx(par= b_init,fn=optFunc_beta, u_em= unlist(b1[1:G]), yig=yig,
-                 x1=x, method = "Nelder-Mead", control = list(maxit=100))
-    b_init <- unlist(b2[1:6])
+    b2 <- suppressWarnings(optimx(par= b_init,fn=optFunc_beta, u_em= unlist(b1[1:G]), yig=yig,
+                 x1=x, method = "Nelder-Mead", control = list(maxit=100)))
+    b_init <- unlist(b2[1:(2+2*d)])
 
-    print(b2)
 
-    b1 <- optimx(par= u_init, fn=optFunc_pc, theta = unlist(b2[1:6]), yig=yig, x1=x,
+    b1 <- suppressWarnings(optimx(par= u_init, fn=optFunc_pc, theta = unlist(b2[1:(2+2*d)]), yig=yig, x1=x,
                  method = "Nelder-Mead",
-                 control = list(maxit=100))
+                 control = list(maxit=100)))
     u_init <- unlist(b1[1:G])
-    print(b1)
+
     if (abs(LL1 - b1$value) <= 0.001) break
 
     LL1 <- b1$value
