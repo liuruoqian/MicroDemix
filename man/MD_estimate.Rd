@@ -8,14 +8,15 @@ MD_estimate(data1, data2, cova)
 }
 \arguments{
 \item{data1}{stool (mixture) microbiome data set with taxa in
-column and samples in row.}
+columns and samples in rows.}
 
 \item{data2}{rectum (reference) microbiome data set with taxa in
-column and samples in row. The taxa in data1 and data2 should
+columns and samples in rows. The taxa in data1 and data2 should
 be matching.}
 
 \item{cova}{covariates related to samples in data1 that have a matching order
-with data1.}
+with data1. 'cova' must be a matrix with covariates in columns and observations
+in rows.}
 }
 \value{
 A list containing the following components:

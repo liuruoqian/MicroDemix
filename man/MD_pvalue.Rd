@@ -23,8 +23,9 @@ depths of all samples in group 2).}
 A scalar in [0, 1].
 }
 \description{
-This function returns a p-value of testing differential abundance
-under the null hypothesis that p.r = p.o.
+This function generates a simulation based p-value of testing differential abundance
+under the null hypothesis that p.r = p.o.Variability in the results is anticipated due to the
+randomness embedded in this function.
 }
 \examples{
 p1 <- rep(0.1, 10)
