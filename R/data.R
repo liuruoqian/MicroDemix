@@ -1,7 +1,7 @@
 
 #' A sample stool (mixture) microbiome data 'yig'
 #'
-#' Microbiome data with 9 families in column and 12 samples in row.
+#' A sample simulated microbiome data with 10 taxa in column and 100 samples in row.
 #'
 #' @docType data
 #'
@@ -13,12 +13,12 @@
 #'
 #' @examples
 #' data(yig)
-#' colnames(yig)
+#' dim(yig)
 "yig"
 
 #' A sample rectum (reference) microbiome data 'yig.n'
 #'
-#' Microbiome data with 9 families in column and 30 samples in row.
+#' A sample simulated microbiome data with 10 taxa in column and 100 samples in row.
 #'
 #' @docType data
 #'
@@ -30,27 +30,42 @@
 #'
 #' @examples
 #' data(yig.n)
-#' colnames(yig.n)
+#' dim(yig.n)
 "yig.n"
 
 
 #' A sample covariates data related to samples in data 'yig'
 #'
-#' Data set contains information on consent_age and gender corresponding to
-#' samples in data 'yig'.
+#' A simulated covariates data corresponding to samples in data 'yig'.
 #'
 #' @docType data
 #'
 #' @usage data(x)
 #'
-#' @format An object of "data.frame".
+#' @format An object of "matrix" "array".
 #'
 #' @keywords datasets
 #'
 #' @examples
 #' data(x)
-#' colnames(x)
+#' dim(x)
 "x"
 
+#' A sample covariates data related to samples in data 'yig.n'
+#'
+#' A simulated covariates data corresponding to samples in data 'yig.n'.
+#'
+#' @docType data
+#'
+#' @usage data(x.n)
+#'
+#' @format An object of "matrix" "array".
+#'
+#' @keywords datasets
+#'
+#' @examples
+#' data(x.n)
+#' dim(x.n)
+"x.n"
 
 

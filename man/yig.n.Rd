@@ -11,10 +11,10 @@ An object of "matrix" "array".
 data(yig.n)
 }
 \description{
-Microbiome data with 9 families in column and 30 samples in row.
+A sample simulated microbiome data with 10 taxa in column and 100 samples in row.
 }
 \examples{
 data(yig.n)
-colnames(yig.n)
+dim(yig.n)
 }
 \keyword{datasets}

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Introduction to MicroDemix</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to MicroDemix</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(MicroDemix)</span></code></pre></div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This vignette demonstrates how to use the <code>MicroDemix</code>
+package, a method that decomposes the stool microbiome at compositional
+level to understand the heterogeneity of the gut microbiome across
+various GI locations.</p>
+<div id="load-the-following-r-packages" class="section level2">
+<h2>Load the following R packages</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(optimx)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(cubature)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(rootSolve)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">library</span>(BB)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">library</span>(MCMCpack)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; Loading required package: coda</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; ##</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; ## Markov Chain Monte Carlo Package (MCMCpack)</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; ## Copyright (C) 2003-2024 Andrew D. Martin, Kevin M. Quinn, and Jong Hee Park</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; ##</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; ## Support provided by the U.S. National Science Foundation</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; ## (Grants SES-0350646 and SES-0350613)</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; ##</span></span></code></pre></div>
+</div>
+<div id="example-datasets-in-microdemix" class="section level2">
+<h2>Example datasets in ‘MicroDemix’</h2>
+<p>The example datasets are from the simulation study with 10 taxa and
+100 samples.</p>
+<div id="yig-a-stool-mixture-microbiome-dataset" class="section level3">
+<h3>‘yig’: A stool (mixture) microbiome dataset</h3>
+<p>‘yig’ is an example dataset for stool (mixture) microbiome data with
+100 samples in rows and 10 taxa in columns. We can access this dataset
+by running the following:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">data</span>(yig)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">head</span>(yig)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;      Taxon1 Taxon2 Taxon3 Taxon4 Taxon5 Taxon6 Taxon7 Taxon8 Taxon9 Taxon10</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; [1,]    985   1245   1571   2030   2517   3192   4099   5201   6707    2453</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; [2,]    944   1234   1549   2083   2498   3096   4194   5201   6776    2425</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; [3,]    940   1218   1599   1953   2539   3210   4116   5211   6718    2496</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; [4,]    949   1277   1561   2029   2522   3161   4006   5316   6695    2484</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; [5,]    979   1235   1560   2039   2559   3202   4029   5284   6660    2453</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; [6,]    969   1218   1535   1994   2543   3221   3933   5277   6734    2576</span></span></code></pre></div>
+</div>
+<div id="yig.n-a-rectum-reference-microbiome-dataset" class="section level3">
+<h3>‘yig.n’: A rectum (reference) microbiome dataset</h3>
+<p>‘yig.n’ is an example dataset for rectum (reference) microbiome data
+with 100 samples in rows and 10 taxa in columns. We can access this
+dataset by running the following:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">data</span>(yig.n)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">head</span>(yig.n)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt;      Taxon1 Taxon2 Taxon3 Taxon4 Taxon5 Taxon6 Taxon7 Taxon8 Taxon9 Taxon10</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; [1,]    999   1219   1678   2040   2583   3094   4031   5285   6649    2422</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; [2,]    980   1222   1587   1975   2488   3026   4022   5407   6805    2488</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; [3,]    964   1224   1555   2016   2623   3191   4066   5340   6566    2455</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [4,]    978   1201   1626   2041   2670   2994   4066   5321   6614    2489</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [5,]    992   1242   1558   2066   2538   3126   4137   5204   6697    2440</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [6,]    928   1231   1581   2090   2568   3247   4058   5276   6625    2396</span></span></code></pre></div>
+</div>
+<div id="x-a-covariates-dataset-related-to-samples-in-data-yig" class="section level3">
+<h3>‘x’: A covariates dataset related to samples in data ‘yig’</h3>
+<p>‘x’ is a dataset contains covariates corresponding to samples in data
+‘yig’. We can access this dataset by running the following:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">data</span>(x)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">dim</span>(x)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; [1] 100   1</span></span></code></pre></div>
+</div>
+<div id="x.n-a-covariates-dataset-related-to-samples-in-data-yig.n" class="section level3">
+<h3>‘x.n’: A covariates dataset related to samples in data ‘yig.n’</h3>
+<p>‘x.n’ is a dataset contains covariates corresponding to samples in
+data ‘yig.n’. We can access this dataset by running the following:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">data</span>(x.n)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">dim</span>(x.n)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; [1] 100   1</span></span></code></pre></div>
+</div>
+</div>
+<div id="functions-and-data-analysis-with-microdemix" class="section level2">
+<h2>Functions and data analysis with ‘MicroDemix’</h2>
+<div id="function-1-md_estimatedata1-data2-cova" class="section level3">
+<h3>Function 1: MD_estimate(data1, data2, cova)</h3>
+<p>This function estimates the microbial relative abundance in stool
+(mixture), rectum (reference) and other GI locations. For example:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>est1 <span class="ot">&lt;-</span> <span class="fu">MD_estimate</span>(yig, yig.n, x)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>est1</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; $pr.est</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;     Taxon1     Taxon2     Taxon3     Taxon4     Taxon5     Taxon6     Taxon7 </span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 0.03272567 0.04125933 0.05265133 0.06706233 0.08539033 0.10519300 0.13534633 </span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;     Taxon8     Taxon9    Taxon10 </span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 0.17478833 0.22439333 0.08119000 </span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; $ps.est</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt;     Taxon1     Taxon2     Taxon3     Taxon4     Taxon5     Taxon6     Taxon7 </span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; 0.03213167 0.04096100 0.05220233 0.06671833 0.08465967 0.10574300 0.13572900 </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt;     Taxon8     Taxon9    Taxon10 </span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; 0.17467567 0.22533033 0.08184900 </span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; $po.est</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;         p1         p2         p3         p4         p5         p6         p7 </span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; 0.03158059 0.04068860 0.05170581 0.06653634 0.08392623 0.10626569 0.13600713 </span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt;         p8         p9        p10 </span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; 0.17470683 0.22604926 0.08253354</span></span></code></pre></div>
+</div>
+<div id="function-2-ra_plotp.r-p.s-p.o-g-taxon" class="section level3">
+<h3>Function 2: RA_plot(p.r, p.s, p.o, G, taxon)</h3>
+<p>We can visualize microbial relative abundances (proportions) at three
+different locations using the ‘RA_plot()’ function. The following
+example replicates one of the plots from the paper, analyzing the phylum
+Firmicutes at the family level.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>p.r <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.0195415822</span>, <span class="fl">0.52043881</span>, <span class="fl">0.0002028398</span>, <span class="dv">0</span>, <span class="fl">0.3991845842</span>, <span class="dv">0</span>, <span class="fl">0.0606321839</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>p.s <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.02713150778</span>, <span class="fl">0.00075219743</span>, <span class="fl">0.00073529412</span>, <span class="fl">0.43284820825</span>, <span class="fl">0.00010311021</span>, <span class="fl">0.00008958756</span>, <span class="fl">0.53113421231</span>, <span class="fl">0.00650608519</span>, <span class="fl">0.00069979716</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>p.o <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.0571234686474</span>, <span class="fl">0.0014037570334</span>, <span class="fl">0.0000033854869</span>, <span class="fl">0.122693737055</span>, <span class="fl">0.0000030544905</span>, <span class="fl">0.0000021475416</span>, <span class="fl">0.8050093482991</span>, <span class="fl">0.0137601784493</span>, <span class="fl">0.0000009229968</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>families <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Clostridiaceae&quot;</span>, <span class="st">&quot;Enterococcaceae&quot;</span>,    <span class="st">&quot;Erysipelotrichaceae&quot;</span>, <span class="st">&quot;Lachnospiraceae&quot;</span>, <span class="st">&quot;Peptococcaceae&quot;</span>,  <span class="st">&quot;Planococcaceae&quot;</span>,  <span class="st">&quot;Ruminococcaceae&quot;</span>,    <span class="st">&quot;Turicibacteraceae&quot;</span>, <span class="st">&quot;Veillonellaceae&quot;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">RA_plot</span>(p.r, p.s, p.o, <span class="dv">9</span>, families)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="function-3-md_pvaluep.r-p.o-n.r-n" class="section level3">
+<h3>Function 3: MD_pvalue(p.r, p.o, N.r, N)</h3>
+<p>We obtain a simulation-based p-value for testing differential
+abundance under the null hypothesis that p.r = p.o, where p.r and p.o
+are the microbial relative abundance in the rectum and other GI
+locations, respectively.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">MD_pvalue</span>(est1<span class="sc">$</span>pr.est, est1<span class="sc">$</span>po.est, <span class="fu">sum</span>(yig.n), <span class="fu">sum</span>(yig))</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<p>We can obtain a p-value under other circumstances, for example:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.1</span>, <span class="dv">10</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="fl">0.09</span>, <span class="dv">5</span>), <span class="fu">rep</span>(<span class="fl">0.11</span>, <span class="dv">5</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">MD_pvalue</span>(p1, p2, <span class="dv">5000</span>, <span class="dv">5000</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; [1] 0.0028</span></span></code></pre></div>
+</div>
+<div id="function-4-data1-data2-cova-maxiter10" class="section level3">
+<h3>Function 4: (data1, data2, cova, maxiter=10)</h3>
+<p>This function using the EM algorithm to estimate the microbial
+relative abundance in stool (mixture), rectum (reference) and other GI
+locations. The EM algorithm is more computationally intensive due to its
+relatively slow convergence rate and the repeated use of the
+Metropolis-Hastings (MH) algorithm in the E-step. In the following
+example, each EM iteration takes approximately 2 minutes on a local
+machine. However, the estimation accuracy improves significantly after
+just a few iterations.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">system.time</span>(est2 <span class="ot">&lt;-</span> <span class="fu">MicroDemix_EM</span>(yig, yig.n, x, <span class="at">maxiter=</span><span class="dv">5</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt; iter:  0  f-value:  4704.532  pgrad:  281.5245 </span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt; [1] 0.002658093</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt; iter:  0  f-value:  4701.743  pgrad:  277.8827 </span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt; [1] 0.0008061163</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;EM iteration: 3&quot;</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt; iter:  0  f-value:  4701.414  pgrad:  276.3458 </span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt; [1] 0.0002402273</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;EM iteration: 4&quot;</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; iter:  0  f-value:  4701.446  pgrad:  276.3473 </span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; [1] 0.0004213928</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; [1] &quot;EM iteration: 5&quot;</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt; iter:  0  f-value:  4701.244  pgrad:  274.4289 </span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co">#&gt; [1] 0.0001306647</span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co">#&gt;  531.33    0.98  940.91</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>est2</span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="co">#&gt; $pr.est</span></span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a><span class="co">#&gt;     Taxon1     Taxon2     Taxon3     Taxon4     Taxon5     Taxon6     Taxon7 </span></span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a><span class="co">#&gt; 0.03272567 0.04125933 0.05265133 0.06706233 0.08539033 0.10519300 0.13534633 </span></span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a><span class="co">#&gt;     Taxon8     Taxon9    Taxon10 </span></span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="co">#&gt; 0.17478833 0.22439333 0.08119000 </span></span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="co">#&gt; $ps.est</span></span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a><span class="co">#&gt;     Taxon1     Taxon2     Taxon3     Taxon4     Taxon5     Taxon6     Taxon7 </span></span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a><span class="co">#&gt; 0.03213167 0.04096100 0.05220233 0.06671833 0.08465967 0.10574300 0.13572900 </span></span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a><span class="co">#&gt;     Taxon8     Taxon9    Taxon10 </span></span>
+<span id="cb11-31"><a href="#cb11-31" tabindex="-1"></a><span class="co">#&gt; 0.17467567 0.22533033 0.08184900 </span></span>
+<span id="cb11-32"><a href="#cb11-32" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-33"><a href="#cb11-33" tabindex="-1"></a><span class="co">#&gt; $po.est</span></span>
+<span id="cb11-34"><a href="#cb11-34" tabindex="-1"></a><span class="co">#&gt;     Taxon1     Taxon2     Taxon3     Taxon4     Taxon5     Taxon6     Taxon7 </span></span>
+<span id="cb11-35"><a href="#cb11-35" tabindex="-1"></a><span class="co">#&gt; 0.03191630 0.04084895 0.05203789 0.06658997 0.08438937 0.10594348 0.13587368 </span></span>
+<span id="cb11-36"><a href="#cb11-36" tabindex="-1"></a><span class="co">#&gt;     Taxon8     Taxon9    Taxon10 </span></span>
+<span id="cb11-37"><a href="#cb11-37" tabindex="-1"></a><span class="co">#&gt; 0.17463619 0.22567804 0.08208611</span></span></code></pre></div>
+</div>
+<div id="function-5-microdemix_em_permutationdata1-data2-cova1-cova2-maxiter10-b" class="section level3">
+<h3>Function 5: MicroDemix_EM_permutation(data1, data2, cova1, cova2,
+maxiter=10, B)</h3>
+<p>This function performs a permutation based test of differential
+abundance under the null hypothesis that p.r = p.o. The permutation test
+requires multiple runs of the EM algorithm. Therefore, we recommend
+performing this procedure using parallel computing or a high-performance
+machine.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">MicroDemix_EM_permutation</span>(yig, yig.n, x, x.n, <span class="at">maxiter=</span><span class="dv">2</span>, <span class="at">B=</span><span class="dv">10</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4704.429  pgrad:  281.1108 </span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co"># [1] 0.002657345</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4701.638  pgrad:  277.4302 </span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co"># [1] 0.0008550884</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co"># [1] &quot;permutation iter: 1&quot;</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4688.334  pgrad:  279.2411 </span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co"># [1] 0.0008837178</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4688.151  pgrad:  279.6902 </span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co"># [1] 0.0003699496</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co"># [1] &quot;permutation iter: 2&quot;</span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4680.651  pgrad:  280.0751 </span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="co"># [1] 0.0006625398</span></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4680.5  pgrad:  279.7522 </span></span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="co"># [1] 0.0002500549</span></span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a><span class="co"># [1] &quot;permutation iter: 3&quot;</span></span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4704.84  pgrad:  280.6383 </span></span>
+<span id="cb12-26"><a href="#cb12-26" tabindex="-1"></a><span class="co"># [1] 0.0008771262</span></span>
+<span id="cb12-27"><a href="#cb12-27" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb12-28"><a href="#cb12-28" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4704.655  pgrad:  280.7079 </span></span>
+<span id="cb12-29"><a href="#cb12-29" tabindex="-1"></a><span class="co"># [1] 0.0003814814</span></span>
+<span id="cb12-30"><a href="#cb12-30" tabindex="-1"></a><span class="co"># [1] &quot;permutation iter: 4&quot;</span></span>
+<span id="cb12-31"><a href="#cb12-31" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb12-32"><a href="#cb12-32" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4695.358  pgrad:  280.5077 </span></span>
+<span id="cb12-33"><a href="#cb12-33" tabindex="-1"></a><span class="co"># [1] 0.001261839</span></span>
+<span id="cb12-34"><a href="#cb12-34" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb12-35"><a href="#cb12-35" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4694.589  pgrad:  280.0775 </span></span>
+<span id="cb12-36"><a href="#cb12-36" tabindex="-1"></a><span class="co"># [1] 0.0004829247</span></span>
+<span id="cb12-37"><a href="#cb12-37" tabindex="-1"></a><span class="co"># [1] &quot;permutation iter: 5&quot;</span></span>
+<span id="cb12-38"><a href="#cb12-38" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb12-39"><a href="#cb12-39" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4714.963  pgrad:  280.0942 </span></span>
+<span id="cb12-40"><a href="#cb12-40" tabindex="-1"></a><span class="co"># [1] 0.0006955507</span></span>
+<span id="cb12-41"><a href="#cb12-41" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb12-42"><a href="#cb12-42" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4714.625  pgrad:  278.8059 </span></span>
+<span id="cb12-43"><a href="#cb12-43" tabindex="-1"></a><span class="co"># [1] 0.0002040188</span></span>
+<span id="cb12-44"><a href="#cb12-44" tabindex="-1"></a><span class="co"># [1] &quot;permutation iter: 6&quot;</span></span>
+<span id="cb12-45"><a href="#cb12-45" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb12-46"><a href="#cb12-46" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4692.693  pgrad:  279.8199 </span></span>
+<span id="cb12-47"><a href="#cb12-47" tabindex="-1"></a><span class="co"># [1] 0.0007145038</span></span>
+<span id="cb12-48"><a href="#cb12-48" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb12-49"><a href="#cb12-49" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4692.438  pgrad:  279.3542 </span></span>
+<span id="cb12-50"><a href="#cb12-50" tabindex="-1"></a><span class="co"># [1] 0.0004163259</span></span>
+<span id="cb12-51"><a href="#cb12-51" tabindex="-1"></a><span class="co"># [1] &quot;permutation iter: 7&quot;</span></span>
+<span id="cb12-52"><a href="#cb12-52" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb12-53"><a href="#cb12-53" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4701.11  pgrad:  281.4275 </span></span>
+<span id="cb12-54"><a href="#cb12-54" tabindex="-1"></a><span class="co"># [1] 0.001500689</span></span>
+<span id="cb12-55"><a href="#cb12-55" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb12-56"><a href="#cb12-56" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4699.981  pgrad:  278.8331 </span></span>
+<span id="cb12-57"><a href="#cb12-57" tabindex="-1"></a><span class="co"># [1] 0.0002896197</span></span>
+<span id="cb12-58"><a href="#cb12-58" tabindex="-1"></a><span class="co"># [1] &quot;permutation iter: 8&quot;</span></span>
+<span id="cb12-59"><a href="#cb12-59" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb12-60"><a href="#cb12-60" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4688.652  pgrad:  278.8074 </span></span>
+<span id="cb12-61"><a href="#cb12-61" tabindex="-1"></a><span class="co"># [1] 0.001133446</span></span>
+<span id="cb12-62"><a href="#cb12-62" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb12-63"><a href="#cb12-63" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4688.138  pgrad:  280.7433 </span></span>
+<span id="cb12-64"><a href="#cb12-64" tabindex="-1"></a><span class="co"># [1] 0.0005703671</span></span>
+<span id="cb12-65"><a href="#cb12-65" tabindex="-1"></a><span class="co"># [1] &quot;permutation iter: 9&quot;</span></span>
+<span id="cb12-66"><a href="#cb12-66" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb12-67"><a href="#cb12-67" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4708.529  pgrad:  280.8886 </span></span>
+<span id="cb12-68"><a href="#cb12-68" tabindex="-1"></a><span class="co"># [1] 0.001269645</span></span>
+<span id="cb12-69"><a href="#cb12-69" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb12-70"><a href="#cb12-70" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4707.73  pgrad:  278.8487 </span></span>
+<span id="cb12-71"><a href="#cb12-71" tabindex="-1"></a><span class="co"># [1] 0.0002213754</span></span>
+<span id="cb12-72"><a href="#cb12-72" tabindex="-1"></a><span class="co"># [1] &quot;permutation iter: 10&quot;</span></span>
+<span id="cb12-73"><a href="#cb12-73" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 1&quot;</span></span>
+<span id="cb12-74"><a href="#cb12-74" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4712.357  pgrad:  280.8193 </span></span>
+<span id="cb12-75"><a href="#cb12-75" tabindex="-1"></a><span class="co"># [1] 0.0005794702</span></span>
+<span id="cb12-76"><a href="#cb12-76" tabindex="-1"></a><span class="co"># [1] &quot;EM iteration: 2&quot;</span></span>
+<span id="cb12-77"><a href="#cb12-77" tabindex="-1"></a><span class="co"># iter:  0  f-value:  4712.134  pgrad:  279.7022 </span></span>
+<span id="cb12-78"><a href="#cb12-78" tabindex="-1"></a><span class="co"># [1] 0.0001730983</span></span>
+<span id="cb12-79"><a href="#cb12-79" tabindex="-1"></a><span class="co"># [1] 0  #pvalue</span></span></code></pre></div>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
