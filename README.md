@@ -5,7 +5,7 @@ heterogeneity of the gut microbiome across various GI locations. In this section
 ### Install package "MicroDemix"
 ```
 library(devtools)
-install_github("liuruoqian/MicroDemix")
+install_github("liuruoqian/MicroDemix", build_vignettes = TRUE)
 library(MicroDemix)
 ```
 ### Load the following R packages
