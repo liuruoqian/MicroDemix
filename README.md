@@ -98,7 +98,7 @@ RA_plot(p.r, p.s, p.o, 9, families)
 ![image](https://github.com/liuruoqian/MicroDemix/assets/25522356/7e0c72a6-8cb1-4873-bbe1-e2f804d20282)
 ### Function 3: MD_pvalue(p.r, p.o, N.r, N)
 We obtain a simulation-based p-value for testing differential abundance under the null hypothesis that p.r = p.o, where p.r and p.o are the microbial relative abundance 
-in the rectum and other GI locations, respectively. 
+in the rectum and other GI locations, respectively. Variability in the results is anticipated due to the randomness embedded in this function.
 ```
 MD_pvalue(est1$pr.est, est1$po.est, sum(yig.n), sum(yig))
 [1] 0
