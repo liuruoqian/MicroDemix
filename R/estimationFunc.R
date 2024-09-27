@@ -213,8 +213,8 @@ RA_plot <- function(p.r, p.s, p.o, G, taxon){
   Taxon <- rep(taxon,3)
   data_phy <- data.frame(loc_phy, phy, Taxon)
 
-  stack_phy <- ggplot2::ggplot(data_phy, aes(x=loc_phy, y=phy, fill=Taxon)) +
-    geom_area()
+  stack_phy <- ggplot2::ggplot(data_phy, ggplot2::aes(x=loc_phy, y=phy, fill=Taxon)) +
+    ggplot2::geom_area()
 
   stack_phy <- stack_phy + ggplot2::scale_x_continuous(breaks = c(1,2,3),
                                               labels=c('proportion1',  'proportion2','proportion3'))+
