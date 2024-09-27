@@ -207,6 +207,7 @@ MD_estimate <- function(data1, data2, cova){
 #' @export
 
 RA_plot <- function(p.r, p.s, p.o, G, taxon){
+  library(ggplot2)
 
   loc_phy <- rep(c(1,2,3),each=G)  # x Axis
   phy <- c(p.r, p.s, p.o)
