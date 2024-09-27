@@ -421,7 +421,8 @@ data ‘yig.n’. We can access this dataset by running the following:</p>
 <div id="function-1-md_estimatedata1-data2-cova" class="section level3">
 <h3>Function 1: MD_estimate(data1, data2, cova)</h3>
 <p>This function estimates the microbial relative abundance in stool
-(mixture), rectum (reference) and other GI locations. For example:</p>
+(mixture), rectum (reference) and other gastrointestinal (GI) locations.
+For example:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>est1 <span class="ot">&lt;-</span> <span class="fu">MD_estimate</span>(yig, yig.n, x)</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>est1</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; $pr.est</span></span>
@@ -469,16 +470,16 @@ locations, respectively.</p>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">MD_pvalue</span>(p1, p2, <span class="dv">5000</span>, <span class="dv">5000</span>)</span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; [1] 0.0028</span></span></code></pre></div>
 </div>
-<div id="function-4-data1-data2-cova-maxiter10" class="section level3">
-<h3>Function 4: (data1, data2, cova, maxiter=10)</h3>
-<p>This function using the EM algorithm to estimate the microbial
-relative abundance in stool (mixture), rectum (reference) and other GI
-locations. The EM algorithm is more computationally intensive due to its
-relatively slow convergence rate and the repeated use of the
-Metropolis-Hastings (MH) algorithm in the E-step. In the following
-example, each EM iteration takes approximately 2 minutes on a local
-machine. However, the estimation accuracy improves significantly after
-just a few iterations.</p>
+<div id="function-4-microdemix_emdata1-data2-cova-maxiter10" class="section level3">
+<h3>Function 4: MicroDemix_EM(data1, data2, cova, maxiter=10)</h3>
+<p>This function uses the EM algorithm to estimate microbial relative
+abundances in stool (mixture), rectum (reference), and other
+gastrointestinal (GI) locations. The EM algorithm is more
+computationally intensive due to its relatively slow convergence rate
+and the repeated use of the Metropolis-Hastings (MH) algorithm in the
+E-step. In the following example, each EM iteration takes approximately
+2 minutes on a local machine. However, the estimation accuracy improves
+significantly after just a few iterations.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">system.time</span>(est2 <span class="ot">&lt;-</span> <span class="fu">MicroDemix_EM</span>(yig, yig.n, x, <span class="at">maxiter=</span><span class="dv">5</span>))</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;EM iteration: 1&quot;</span></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt; iter:  0  f-value:  4704.532  pgrad:  281.5245 </span></span>

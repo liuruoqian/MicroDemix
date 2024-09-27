@@ -3,6 +3,9 @@
 #'
 #' This function estimate the microbial relative abundance in stool (mixture),
 #' rectum (reference) and other GI locations.
+#' @import optimx
+#' @import cubature
+#' @import rootSolve
 #' @param data1 stool (mixture) microbiome data set with taxa in
 #'            columns and samples in rows.
 #' @param data2 rectum (reference) microbiome data set with taxa in
@@ -189,6 +192,7 @@ MD_estimate <- function(data1, data2, cova){
 #' RA_plot
 #'
 #' visualization of microbial relative abundance (proportions) at three different locations.
+#' @import ggplot2
 #' @param p.r relative abundance at location 1 (e.g. rectum)
 #' @param p.s relative abundance at location 2 (e.g. stool)
 #' @param p.o relative abundance at location 3 (e.g. other GI locations).

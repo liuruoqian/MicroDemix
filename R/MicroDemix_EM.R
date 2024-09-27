@@ -2,6 +2,9 @@
 #'
 #' This function using the EM algorithm to estimate the microbial relative abundance in stool (mixture),
 #' rectum (reference) and other GI locations.
+#' @import optimx
+#' @import BB
+#' @import MCMCpack
 #' @param data1 stool (mixture) microbiome data set with taxa in
 #'            columns and samples in rows.
 #' @param data2 rectum (reference) microbiome data set with taxa in

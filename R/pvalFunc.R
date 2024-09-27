@@ -3,6 +3,7 @@
 #' This function generates a simulation based p-value of testing differential abundance
 #' under the null hypothesis that p.r = p.o.Variability in the results is anticipated due to the
 #' randomness embedded in this function.
+#' @import MASS
 #' @param p.r A vector for the relative abundance of corresponding
 #' taxa in group 1 (e.g. the microbial relative abundance in rectum).
 #' @param p.o A vector for the relative abundance of corresponding

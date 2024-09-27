@@ -3,6 +3,9 @@
 #' This function performs a permutation based test of differential abundance
 #' under the null hypothesis that p.r = p.o. Variability in the results is anticipated due to the
 #' randomness embedded in this function.
+#' @import optimx
+#' @import BB
+#' @import MCMCpack
 #' @param data1 stool (mixture) microbiome data set with taxa in
 #'            columns and samples in rows.
 #' @param data2 rectum (reference) microbiome data set with taxa in
