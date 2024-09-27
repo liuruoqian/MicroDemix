@@ -111,7 +111,7 @@ MD_pvalue(p1, p2, 5000, 5000)
 [1] 0.0031
 ```
 ### Function 4: MicroDemix_EM(data1, data2, cova, maxiter=10)
-This function using the EM algorithm to estimate the microbial relative abundance in stool (mixture), rectum (reference) and other GI locations. 
+This function uses the EM algorithm to estimate microbial relative abundances in stool (mixture), rectum (reference), and other gastrointestinal (GI) locations.
 The EM algorithm is more computationally intensive due to its relatively slow convergence rate and the repeated use of the Metropolis-Hastings (MH) algorithm in the E-step. In the following example, each EM iteration takes approximately 2 minutes on a local machine. However, the estimation accuracy improves significantly after just a few iterations.
 ```
 system.time(est2 <- MicroDemix_EM(yig, yig.n, x, maxiter=5))
