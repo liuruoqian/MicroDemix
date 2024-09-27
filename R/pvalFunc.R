@@ -19,7 +19,6 @@
 #' MD_pvalue(p1, p2, 5000, 5000);
 #' @export
 
-
 MD_pvalue <- function(p.r, p.o, N.r, N){
   G <- length(p.o)
   total_counts.n <- N.r
@@ -36,8 +35,8 @@ MD_pvalue <- function(p.r, p.o, N.r, N){
 
   Sig <- Sig + diag(p1.hat,G,G)
 
-  samp1 <- mvrnorm(10000, mu = rep(0, G-1), Sigma = Sig[1:(G-1),1:(G-1)])
-  samp2 <- mvrnorm(10000, mu = rep(0, G-1), Sigma = Sig[1:(G-1),1:(G-1)])
+  samp1 <- MASS::mvrnorm(10000, mu = rep(0, G-1), Sigma = Sig[1:(G-1),1:(G-1)])
+  samp2 <- MASS::mvrnorm(10000, mu = rep(0, G-1), Sigma = Sig[1:(G-1),1:(G-1)])
 
 
   samp1 <- samp1/sqrt((total_counts.n))

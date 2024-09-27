@@ -24,6 +24,7 @@
 #' MicroDemix_EM_permutation(yig, yig.n, x, x.n, maxiter=5, B=10);
 #' @export
 
+
 MicroDemix_EM_permutation <- function(data1, data2, cova1, cova2, maxiter=10, B){
 
   loglik <- function(pi.s, y.vec, x.vec, para, pr){
@@ -137,7 +138,7 @@ MicroDemix_EM_permutation <- function(data1, data2, cova1, cova2, maxiter=10, B)
 
         #if(pi.ind[i] == F){
 
-        mcmc_loglik_try <- try(MCMCmetrop1R(
+        mcmc_loglik_try <- try(MCMCpack::MCMCmetrop1R(
           loglik,
           theta.init=0.5,
           burnin = 500,
@@ -201,7 +202,7 @@ MicroDemix_EM_permutation <- function(data1, data2, cova1, cova2, maxiter=10, B)
       #                   method=c("L-BFGS-B"), control=list(maxit=2), MCMC_pi=MCMCsample, y=y, x=x, pr=pr, Const=10000)
       #
 
-      t2.spg <- spg(par=para_old, fn=obj_EM, gr=NULL, method=3, lower=lower.vec, upper=upper.vec,
+      t2.spg <- BB::spg(par=para_old, fn=obj_EM, gr=NULL, method=3, lower=lower.vec, upper=upper.vec,
                     project=NULL, projectArgs=NULL,
                     control=list(maxit=2), quiet=FALSE, alertConvergence=FALSE, MCMC_pi=MCMCsample, y=y, x=x, pr=pr, Const=10000)
 

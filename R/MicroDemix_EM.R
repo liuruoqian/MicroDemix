@@ -23,7 +23,6 @@
 #' @export
 
 
-
 MicroDemix_EM <- function(data1, data2, cova, maxiter=10){
   options(warn=-1)
 
@@ -137,7 +136,7 @@ MicroDemix_EM <- function(data1, data2, cova, maxiter=10){
 
         #if(pi.ind[i] == F){
 
-        mcmc_loglik_try <- try(MCMCmetrop1R(
+        mcmc_loglik_try <- try(MCMCpack::MCMCmetrop1R(
           loglik,
           theta.init=0.5,
           burnin = 500,
@@ -201,7 +200,7 @@ MicroDemix_EM <- function(data1, data2, cova, maxiter=10){
       #                   method=c("L-BFGS-B"), control=list(maxit=2), MCMC_pi=MCMCsample, y=y, x=x, pr=pr, Const=10000)
       #
 
-      t2.spg <- spg(par=para_old, fn=obj_EM, gr=NULL, method=3, lower=lower.vec, upper=upper.vec,
+      t2.spg <- BB::spg(par=para_old, fn=obj_EM, gr=NULL, method=3, lower=lower.vec, upper=upper.vec,
                     project=NULL, projectArgs=NULL,
                     control=list(maxit=2), quiet=FALSE, alertConvergence=FALSE, MCMC_pi=MCMCsample, y=y, x=x, pr=pr, Const=10000)
 

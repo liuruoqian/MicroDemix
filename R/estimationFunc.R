@@ -22,7 +22,6 @@
 #' MD_estimate(yig, yig.n, x);
 #' @export
 
-
 MD_estimate <- function(data1, data2, cova){
   # source("R/baseFunc.R")
 
@@ -53,7 +52,7 @@ MD_estimate <- function(data1, data2, cova){
   # integrate density over pi for each i
   # change p1=p1 to p1=p1.hat on 6/12/2022
   func_inte <- function(u_inte,yig,a1_v,a2_v){
-    inte <- cubintegrate(f=func_d, lower=0, upper=1,
+    inte <- cubature::cubintegrate(f=func_d, lower=0, upper=1,
                          yi=yig, p1=p1.hat, u=u_inte, a1=a1_v, a2=a2_v)$integral
     return(inte)
   }
@@ -124,7 +123,7 @@ MD_estimate <- function(data1, data2, cova){
     c(F1 = F1)
   }
 
-  u.hat <- multiroot(f = model, start = rep(0,G))$root
+  u.hat <- rootSolve::multiroot(f = model, start = rep(0,G))$root
 
 
   s.n <- nrow(yig.n)
@@ -148,7 +147,7 @@ MD_estimate <- function(data1, data2, cova){
   # which(log(mapply(func_inte, as.list(data.frame(u_mtx)),
   #                  as.list(data.frame(t(yig))), as.list(a1_v),as.list(a2_v))) == -Inf)
 
-  b <- suppressWarnings(optimx(par= u.hat,fn=optFunc_pc, theta = rep(0, (2+2*d)), yig=yig, x1=x,
+  b <- suppressWarnings(optimx::optimx(par= u.hat,fn=optFunc_pc, theta = rep(0, (2+2*d)), yig=yig, x1=x,
                method = "Nelder-Mead",
               control = list(maxit=100)))
 
@@ -162,12 +161,12 @@ MD_estimate <- function(data1, data2, cova){
   for (iter in 1:30){
 
 
-    b2 <- suppressWarnings(optimx(par= b_init,fn=optFunc_beta, u_em= unlist(b1[1:G]), yig=yig,
+    b2 <- suppressWarnings(optimx::optimx(par= b_init,fn=optFunc_beta, u_em= unlist(b1[1:G]), yig=yig,
                  x1=x, method = "Nelder-Mead", control = list(maxit=100)))
     b_init <- unlist(b2[1:(2+2*d)])
 
 
-    b1 <- suppressWarnings(optimx(par= u_init, fn=optFunc_pc, theta = unlist(b2[1:(2+2*d)]), yig=yig, x1=x,
+    b1 <- suppressWarnings(optimx::optimx(par= u_init, fn=optFunc_pc, theta = unlist(b2[1:(2+2*d)]), yig=yig, x1=x,
                  method = "Nelder-Mead",
                  control = list(maxit=100)))
     u_init <- unlist(b1[1:G])
@@ -214,17 +213,17 @@ RA_plot <- function(p.r, p.s, p.o, G, taxon){
   Taxon <- rep(taxon,3)
   data_phy <- data.frame(loc_phy, phy, Taxon)
 
-  stack_phy <- ggplot(data_phy, aes(x=loc_phy, y=phy, fill=Taxon)) +
+  stack_phy <- ggplot2::ggplot(data_phy, aes(x=loc_phy, y=phy, fill=Taxon)) +
     geom_area()
 
-  stack_phy <- stack_phy + scale_x_continuous(breaks = c(1,2,3),
+  stack_phy <- stack_phy + ggplot2::scale_x_continuous(breaks = c(1,2,3),
                                               labels=c('proportion1',  'proportion2','proportion3'))+
     # ggtitle("Phylum-level Analysis") +
-    theme(plot.title = element_text( size=12),
+    ggplot2::theme(plot.title = element_text( size=12),
           axis.title.x=element_blank(),
           axis.title.y = element_text(size=10),
           legend.text = element_text(size=10))+
-    labs(y = "Relative Abundance")
+    ggplot2::labs(y = "Relative Abundance")
 
 
   return (stack_phy)
